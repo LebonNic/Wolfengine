@@ -24,7 +24,13 @@ repositories {
     mavenCentral()
 }
 
+ext{
+    gdxVersion = "1.9.3"
+    jUnitVersion = "4.11"
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    testCompile "junit:junit:$jUnitVersion"
     testRuntime "org.slf4j:slf4j-api:1.7.10"
 }
