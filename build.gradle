@@ -22,6 +22,7 @@ apply plugin: 'net.saliman.cobertura'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 ext{
@@ -32,5 +33,7 @@ ext{
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     testCompile "junit:junit:$jUnitVersion"
+    testCompile "org.mockito:mockito-core:1.+"
+    //Avoid Cobertura to fail on reports generation
     testRuntime "org.slf4j:slf4j-api:1.7.10"
 }

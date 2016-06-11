@@ -1,4 +1,4 @@
 package com.arvernistudio.wolfengine;
 
-public class Component {
+public abstract class Component {
 }
