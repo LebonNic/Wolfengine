@@ -1,5 +1,7 @@
-import com.arvernistudio.wolfengine.Component;
-import com.arvernistudio.wolfengine.ComponentTypeMapper;
+package com.arvernistudio.wolfenginetest.component;
+
+import com.arvernistudio.wolfengine.component.Component;
+import com.arvernistudio.wolfengine.component.ComponentTypeMapper;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import org.junit.Before;

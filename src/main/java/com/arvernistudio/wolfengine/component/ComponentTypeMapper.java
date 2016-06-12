@@ -1,4 +1,4 @@
-package com.arvernistudio.wolfengine;
+package com.arvernistudio.wolfengine.component;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
