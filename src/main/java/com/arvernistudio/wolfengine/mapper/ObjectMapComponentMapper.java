@@ -1,16 +1,16 @@
-package com.arvernistudio.wolfengine.component;
+package com.arvernistudio.wolfengine.mapper;
 
+import com.arvernistudio.wolfengine.component.Component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ComponentTypeMapper {
-    private static final String TAG = ComponentTypeMapper.class.getSimpleName();
-    private static ComponentTypeMapper _instance;
+public class ObjectMapComponentMapper implements ComponentMapper {
+    private static final String TAG = ObjectMapComponentMapper.class.getSimpleName();
     private ObjectMap<Class<? extends Component>, Integer> _componentTypeToIndex;
     private AtomicInteger _uniqueId;
 
-    private ComponentTypeMapper() {
+    public ObjectMapComponentMapper() {
         _componentTypeToIndex = new ObjectMap<>();
         _uniqueId = new AtomicInteger();
     }
@@ -27,19 +27,5 @@ public class ComponentTypeMapper {
             clazz.getSimpleName());
 
         return componentIndex;
-    }
-
-    public static ComponentTypeMapper getInstance(){
-        if(_instance == null){
-            synchronized (ComponentTypeMapper.class){
-                if(_instance == null){
-                    _instance = new ComponentTypeMapper();
-                    Gdx.app.log(TAG, "ComponentTypeMapper singleton has been successfully" +
-                            "instantiated.");
-                }
-            }
-        }
-
-        return _instance;
     }
 }
