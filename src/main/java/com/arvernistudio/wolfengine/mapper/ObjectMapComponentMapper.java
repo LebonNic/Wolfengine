@@ -23,7 +23,8 @@ public class ObjectMapComponentMapper implements ComponentMapper {
             _componentTypeToIndex.put(clazz, componentIndex);
         }
 
-        Gdx.app.log(TAG, "Return index " + componentIndex + " for component class " +
+        Gdx.app.log(ObjectMapComponentMapper.TAG,
+                "Return index " + componentIndex + " for component class " +
             clazz.getSimpleName());
 
         return componentIndex;

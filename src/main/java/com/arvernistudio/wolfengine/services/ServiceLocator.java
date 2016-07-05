@@ -9,7 +9,7 @@ public class ServiceLocator {
     private static ComponentMapper _componentMapper;
 
     static {
-        Gdx.app.log(TAG, "Instantiate " + ObjectMapComponentMapper.class.getSimpleName() +
+        Gdx.app.log(ServiceLocator.TAG, "Instantiate " + ObjectMapComponentMapper.class.getSimpleName() +
         " to handle services of " + ComponentMapper.class.getSimpleName());
         _componentMapper = new ObjectMapComponentMapper();
     }
