@@ -3,6 +3,9 @@ package com.arvernistudio.wolfenginetest.core;
 import com.arvernistudio.wolfengine.core.GameEngine;
 import com.arvernistudio.wolfengine.core.GameLogicProcessor;
 import com.arvernistudio.wolfengine.core.RenderingEngine;
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -23,6 +26,12 @@ public class GameEngineTest {
 
     //In seconds
     private static final float delta = 0.016f;
+
+    @Before
+    public void setUp(){
+        //Avoid NullPointerException when Gdx.app.log is called in the tested methods
+        Gdx.app = Mockito.mock(Application.class);
+    }
 
     @BeforeClass
     public static void initTests(){

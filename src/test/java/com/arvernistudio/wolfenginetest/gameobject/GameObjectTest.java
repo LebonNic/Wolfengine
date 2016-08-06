@@ -2,9 +2,12 @@ package com.arvernistudio.wolfenginetest.gameobject;
 
 import com.arvernistudio.wolfengine.component.Component;
 import com.arvernistudio.wolfengine.gameobject.GameObject;
+import com.arvernistudio.wolfengine.mapper.ComponentMapper;
+import com.arvernistudio.wolfengine.mapper.ObjectMapComponentMapper;
 import com.arvernistudio.wolfengine.services.ServiceLocator;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Bits;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -15,10 +18,21 @@ public class GameObjectTest {
 
     private class FooComponent extends Component{}
 
+    private class BarComponent extends Component{}
+
+    private class BazComponent extends Component{}
+
     @Before
     public void setUp(){
         //Avoid NullPointerException when Gdx.app.log is called in the tested methods
         Gdx.app = Mockito.mock(Application.class);
+
+        //Reset the component mapper for the tests set
+        ComponentMapper mapper = new ObjectMapComponentMapper();
+        mapper.getComponentIndex(FooComponent.class);
+        mapper.getComponentIndex(BarComponent.class);
+        mapper.getComponentIndex(BazComponent.class);
+        ServiceLocator.injectComponentMapper(mapper);
     }
 
     @Test
@@ -70,5 +84,24 @@ public class GameObjectTest {
         assertEquals("The Component retrieved from the GameObject should be the " +
                         "same as the one which has been added previously to the GameObject.",
                 fooComponent, componentAfterAddOperation);
+
+        assertEquals("The number of components added to the GameObject should be" +
+                "one.", 1, gameObject.getComponents().size());
+    }
+
+    @Test
+    public void getComponentsMaskTest(){
+        ComponentMapper mapper = ServiceLocator.getComponentTypeMapper();
+        GameObject gameObject = new GameObject();
+        gameObject.addComponent(new FooComponent())
+                .addComponent(new BarComponent())
+                .addComponent(new BazComponent());
+
+        Bits expectedComponentMask = new Bits();
+        expectedComponentMask.set(mapper.getComponentIndex(FooComponent.class));
+        expectedComponentMask.set(mapper.getComponentIndex(BarComponent.class));
+        expectedComponentMask.set(mapper.getComponentIndex(BazComponent.class));
+
+        assertEquals(expectedComponentMask, gameObject.getComponentsMask());
     }
 }

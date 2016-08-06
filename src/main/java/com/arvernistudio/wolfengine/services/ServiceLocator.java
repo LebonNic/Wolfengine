@@ -17,4 +17,9 @@ public class ServiceLocator {
     public static ComponentMapper getComponentTypeMapper(){
         return _componentMapper;
     }
+
+    public static void injectComponentMapper(ComponentMapper mapper){
+        assert mapper != null;
+        ServiceLocator._componentMapper = mapper;
+    }
 }

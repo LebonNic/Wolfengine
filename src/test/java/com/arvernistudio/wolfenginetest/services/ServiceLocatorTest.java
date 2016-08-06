@@ -1,6 +1,7 @@
 package com.arvernistudio.wolfenginetest.services;
 
 import com.arvernistudio.wolfengine.mapper.ComponentMapper;
+import com.arvernistudio.wolfengine.mapper.ObjectMapComponentMapper;
 import com.arvernistudio.wolfengine.services.ServiceLocator;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;

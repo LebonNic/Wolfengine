@@ -29,9 +29,9 @@ public class ObjectMapComponentMapperTest {
         int indexForBarComponent = mapper.getComponentIndex(BarComponent.class);
         int indexForBazComponent = mapper.getComponentIndex(BazComponent.class);
 
-        assertEquals(indexForFooComponent, 1);
-        assertEquals(indexForBarComponent, 2);
-        assertEquals(indexForBazComponent, 3);
+        assertEquals(indexForFooComponent, 0);
+        assertEquals(indexForBarComponent, 1);
+        assertEquals(indexForBazComponent, 2);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class ObjectMapComponentMapperTest {
         int indexOnGeneration  = mapper.getComponentIndex(FooComponent.class);
         int indexOnSecondCall  = mapper.getComponentIndex(FooComponent.class);
 
-        assertEquals(indexOnGeneration, 1);
-        assertEquals(indexOnSecondCall, 1);
+        assertEquals(indexOnGeneration, 0);
+        assertEquals(indexOnSecondCall, 0);
     }
 }

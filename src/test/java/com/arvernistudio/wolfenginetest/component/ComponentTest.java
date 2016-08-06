@@ -2,6 +2,8 @@ package com.arvernistudio.wolfenginetest.component;
 
 import com.arvernistudio.wolfengine.component.Component;
 import com.arvernistudio.wolfengine.gameobject.GameObject;
+import com.arvernistudio.wolfengine.mapper.ObjectMapComponentMapper;
+import com.arvernistudio.wolfengine.services.ServiceLocator;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import org.junit.Before;
@@ -16,6 +18,7 @@ public class ComponentTest {
     public void setUp(){
         //Avoid NullPointerException when Gdx.app.log is called in the tested methods
         Gdx.app = Mockito.mock(Application.class);
+        ServiceLocator.injectComponentMapper(new ObjectMapComponentMapper());
     }
 
     @Test
