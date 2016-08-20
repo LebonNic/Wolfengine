@@ -1,5 +1,6 @@
 package com.arvernistudio.wolfenginetest.services;
 
+import com.arvernistudio.wolfengine.finder.FamilyBuilder;
 import com.arvernistudio.wolfengine.mapper.ComponentMapper;
 import com.arvernistudio.wolfengine.mapper.ObjectMapComponentMapper;
 import com.arvernistudio.wolfengine.services.ServiceLocator;
@@ -21,6 +22,9 @@ public class ServiceLocatorTest {
     @Test
     public void locateComponentMapper(){
         ComponentMapper mapper = ServiceLocator.getComponentTypeMapper();
+        FamilyBuilder builder = ServiceLocator.getFamilyBuilder();
+
         assertNotNull(mapper);
+        assertNotNull(builder);
     }
 }

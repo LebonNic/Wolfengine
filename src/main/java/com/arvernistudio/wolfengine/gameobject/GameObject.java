@@ -1,6 +1,7 @@
 package com.arvernistudio.wolfengine.gameobject;
 
 import com.arvernistudio.wolfengine.component.Component;
+import com.arvernistudio.wolfengine.finder.Family;
 import com.arvernistudio.wolfengine.services.ServiceLocator;
 import com.arvernistudio.wolfengine.utils.Bag;
 import com.arvernistudio.wolfengine.utils.ImmutableArray;
@@ -15,6 +16,7 @@ public class GameObject {
     private Array<Component> _componentsArray;
     private ImmutableArray<Component> _exposedComponentsArray;
     private Bits _componentsMask;
+    private Bits _familyMasks;
 
     public GameObject(){
         GameObject._instanceCounter += 1;
@@ -23,6 +25,7 @@ public class GameObject {
         _componentsArray = new Array<>(false, 16);
         _exposedComponentsArray = new ImmutableArray<>(_componentsArray);
         _componentsMask = new Bits();
+        _familyMasks = new Bits();
     }
 
     public int getId(){
@@ -68,5 +71,18 @@ public class GameObject {
 
     public Bits getComponentsMask(){
         return _componentsMask;
+    }
+
+    public void toggleFamilyMembership(Family family){
+        if(family.matchWith(this)){
+            _familyMasks.flip(family.hashCode());
+        }
+        else{
+            // TODO throw a terrible error if we go here...
+        }
+    }
+
+    public boolean isFamilyMembershipToggledFor(Family family){
+        return  _familyMasks.get(family.hashCode());
     }
 }

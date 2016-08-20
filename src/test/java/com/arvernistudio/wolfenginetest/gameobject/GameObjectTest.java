@@ -1,6 +1,8 @@
 package com.arvernistudio.wolfenginetest.gameobject;
 
 import com.arvernistudio.wolfengine.component.Component;
+import com.arvernistudio.wolfengine.finder.Family;
+import com.arvernistudio.wolfengine.finder.FamilyBuilder;
 import com.arvernistudio.wolfengine.gameobject.GameObject;
 import com.arvernistudio.wolfengine.mapper.ComponentMapper;
 import com.arvernistudio.wolfengine.mapper.ObjectMapComponentMapper;
@@ -33,6 +35,10 @@ public class GameObjectTest {
         mapper.getComponentIndex(BarComponent.class);
         mapper.getComponentIndex(BazComponent.class);
         ServiceLocator.injectComponentMapper(mapper);
+
+        // Reset the family builder for the tests set
+        FamilyBuilder builder = new FamilyBuilder();
+        ServiceLocator.injectFamilyBuilder(builder);
     }
 
     @Test
@@ -103,5 +109,25 @@ public class GameObjectTest {
         expectedComponentMask.set(mapper.getComponentIndex(BazComponent.class));
 
         assertEquals(expectedComponentMask, gameObject.getComponentsMask());
+    }
+
+    @Test
+    public void toggleFamilyMembershipTest(){
+        FamilyBuilder builder = ServiceLocator.getFamilyBuilder();
+        Family family = builder.all(FooComponent.class, BazComponent.class).get();
+
+        GameObject gameObject = new GameObject()
+                .addComponent(new FooComponent())
+                .addComponent(new BazComponent());
+
+        boolean  isGameObjectInFamilyAtFirst = gameObject.isFamilyMembershipToggledFor(family);
+        gameObject.toggleFamilyMembership(family);
+        boolean familyMembershipToggled =  gameObject.isFamilyMembershipToggledFor(family);
+        gameObject.toggleFamilyMembership(family);
+        boolean familyMembershipNotToggled = gameObject.isFamilyMembershipToggledFor(family);
+
+        assertFalse(isGameObjectInFamilyAtFirst);
+        assertTrue(familyMembershipToggled);
+        assertFalse(familyMembershipNotToggled);
     }
 }

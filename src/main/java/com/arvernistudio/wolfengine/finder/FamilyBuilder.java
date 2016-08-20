@@ -5,7 +5,6 @@ import com.arvernistudio.wolfengine.mapper.ComponentMapper;
 import com.arvernistudio.wolfengine.services.ServiceLocator;
 import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.StringBuilder;
 
 public class FamilyBuilder {
     private ObjectMap<String, Family> _families;

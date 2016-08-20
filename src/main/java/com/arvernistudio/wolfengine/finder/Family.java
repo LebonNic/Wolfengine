@@ -5,12 +5,17 @@ import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.StringBuilder;
 
 public class Family {
+    private static int _instanceCounter = 0;
     private Bits _all;
     private Bits _one;
+    private int _id;
 
     public Family(Bits all, Bits one){
         assert all != null;
         assert one != null;
+
+        _id = Family._instanceCounter;
+        Family._instanceCounter++;
 
         _all = copyBitSet(all);
         _one = copyBitSet(one);
@@ -70,5 +75,10 @@ public class Family {
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public int hashCode(){
+        return _id;
     }
 }

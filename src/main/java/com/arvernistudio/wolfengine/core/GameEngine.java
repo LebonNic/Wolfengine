@@ -28,7 +28,7 @@ public class GameEngine {
             _gameLogicProcessor = gameLogicProcessor;
         }
         else{
-            //TODO Throw custom exception
+            throw new IllegalArgumentException();
         }
     }
 
