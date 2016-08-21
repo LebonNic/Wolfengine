@@ -3,6 +3,7 @@ package com.arvernistudio.wolfenginetest.core;
 import com.arvernistudio.wolfengine.core.GameEngine;
 import com.arvernistudio.wolfengine.core.GameLogicProcessor;
 import com.arvernistudio.wolfengine.core.RenderingEngine;
+import com.arvernistudio.wolfengine.scene.Scene;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 public class GameEngineTest {
@@ -38,13 +40,13 @@ public class GameEngineTest {
         renderingEngine = Mockito.mock(RenderingEngine.class);
         gameLogicProcessor = Mockito.mock(GameLogicProcessor.class);
 
-        when(renderingEngine.render()).thenReturn(
+        when(renderingEngine.render(any(Scene.class))).thenReturn(
                 TimeUnit.MILLISECONDS.toNanos(consumedTimeToRender));
 
-        when(gameLogicProcessor.fixedUpdate()).thenReturn(
+        when(gameLogicProcessor.fixedUpdate(any(Scene.class))).thenReturn(
                 TimeUnit.MILLISECONDS.toNanos(fixedUpdateConsumedTime));
 
-        when(gameLogicProcessor.update()).thenReturn(
+        when(gameLogicProcessor.update(any(Scene.class))).thenReturn(
                 TimeUnit.MILLISECONDS.toNanos(consumedTimeToUpdateGameState));
     }
 
@@ -113,5 +115,10 @@ public class GameEngineTest {
         gameEngine.update(GameEngineTest.delta * (GameEngine.MAX_UPDATE_ITERATION + 1));
 
         assertEquals(GameEngine.MAX_UPDATE_ITERATION, gameEngine.getFixedUpdatesCountPerFame());
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void badArgumentsOnInstantiationTest(){
+        GameEngine engine = new GameEngine(null, null);
     }
 }

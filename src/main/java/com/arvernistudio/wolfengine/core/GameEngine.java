@@ -1,5 +1,8 @@
 package com.arvernistudio.wolfengine.core;
 
+import com.arvernistudio.wolfengine.gameobject.GameObject;
+import com.arvernistudio.wolfengine.scene.Scene;
+
 public class GameEngine {
     public static final long NS_PER_FIXED_UPDATE = 16000000;
     public static final int MAX_UPDATE_ITERATION = 10;
@@ -13,6 +16,7 @@ public class GameEngine {
 
     private RenderingEngine _renderingEngine;
     private GameLogicProcessor _gameLogicProcessor;
+    private Scene _currentScene;
 
     public GameEngine(RenderingEngine renderingEngine, GameLogicProcessor gameLogicProcessor){
 
@@ -26,6 +30,7 @@ public class GameEngine {
 
             _renderingEngine = renderingEngine;
             _gameLogicProcessor = gameLogicProcessor;
+            _currentScene = new Scene();
         }
         else{
             throw new IllegalArgumentException();
@@ -33,7 +38,7 @@ public class GameEngine {
     }
 
     public void start(){
-        _gameLogicProcessor.start();
+        _gameLogicProcessor.start(_currentScene);
     }
 
     public void update(float delta){
@@ -41,6 +46,7 @@ public class GameEngine {
         _amountOfRealTimeToCatchUp += delta * 1e9;
         _fixedUpdatesCountPerFrame = 0;
         _fixedUpdateTime = 0;
+        _currentScene.lock();
 
         if(_amountOfRealTimeToCatchUp >= GameEngine.NS_PER_FIXED_UPDATE){
             while(_amountOfRealTimeToCatchUp >= GameEngine.NS_PER_FIXED_UPDATE &&
@@ -53,22 +59,32 @@ public class GameEngine {
         }
 
         _timeToRender = render();
+        _currentScene.unlock();
+
         _totalUpdateTime = + _fixedUpdateTime + _updateGameStateTime +
                 _timeToRender;
+    }
+
+    public void addGameObjectToCurrentScene(GameObject gameObject){
+        _currentScene.addGameObject(gameObject);
+    }
+
+    public void removeGameObjectFromCurrentScene(GameObject gameObject){
+        _currentScene.removeGameObject(gameObject);
     }
 
     private long fixedUpdate(){
         _fixedUpdatesCountPerFrame += 1;
 
-        return _gameLogicProcessor.fixedUpdate();
+        return _gameLogicProcessor.fixedUpdate(_currentScene);
     }
 
     private long updateGameState(){
-        return _gameLogicProcessor.update();
+        return _gameLogicProcessor.update(_currentScene);
     }
 
     private long render(){
-        return _renderingEngine.render();
+        return _renderingEngine.render(_currentScene);
     }
 
     public int getFixedUpdatesCountPerFame(){ return _fixedUpdatesCountPerFrame; }
