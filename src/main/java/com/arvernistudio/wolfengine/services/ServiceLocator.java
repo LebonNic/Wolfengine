@@ -15,6 +15,8 @@ public class ServiceLocator {
         " to handle services of " + ComponentMapper.class.getSimpleName());
         _componentMapper = new ObjectMapComponentMapper();
 
+        Gdx.app.log(ServiceLocator.TAG, "Instantiate " + FamilyBuilder.class.getSimpleName() +
+                " to handle services of " + FamilyBuilder.class.getSimpleName());
         _familyBuilder = new FamilyBuilder();
     }
 
@@ -29,10 +31,12 @@ public class ServiceLocator {
     public static void injectComponentMapper(ComponentMapper mapper){
         assert mapper != null;
         ServiceLocator._componentMapper = mapper;
+        Gdx.app.log(ServiceLocator.TAG, "A new component mapper has been injected");
     }
 
     public static void injectFamilyBuilder(FamilyBuilder familyBuilder){
         assert familyBuilder != null;
         ServiceLocator._familyBuilder = familyBuilder;
+        Gdx.app.log(ServiceLocator.TAG, "A new family builder has been injected");
     }
 }

@@ -21,11 +21,11 @@ public class ObjectMapComponentMapper implements ComponentMapper {
             componentIndex = _uniqueId;
             _componentTypeToIndex.put(clazz, componentIndex);
             _uniqueId += 1;
-        }
 
-        Gdx.app.log(ObjectMapComponentMapper.TAG,
-                "Return index " + componentIndex + " for component class " +
-            clazz.getSimpleName());
+            Gdx.app.log(ObjectMapComponentMapper.TAG,
+                    "Return index " + componentIndex + " for component class " +
+                            clazz.getSimpleName());
+        }
 
         return componentIndex;
     }

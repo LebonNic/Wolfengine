@@ -1,36 +1,53 @@
 package com.arvernistudio.wolfengine.core;
 
+import com.arvernistudio.wolfengine.finder.Family;
 import com.arvernistudio.wolfengine.gameobject.GameObject;
 import com.arvernistudio.wolfengine.scene.Scene;
+import com.arvernistudio.wolfengine.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 
 public class GameEngine {
-    public static final long NS_PER_FIXED_UPDATE = 16000000;
+    public enum EngineState{
+        Running,
+        Stopped
+    }
+
+    private static final long NS_PER_FIXED_UPDATE = 16000000;
     public static final int MAX_UPDATE_ITERATION = 10;
+    private static final String TAG = GameEngine.class.getSimpleName();
 
     private int _fixedUpdatesCountPerFrame;
     private long _amountOfRealTimeToCatchUp;
     private long _fixedUpdateTime;
     private long _updateGameStateTime;
     private long _timeToRender;
+    private long _inputsProcessingTime;
     private long _totalUpdateTime;
 
     private RenderingEngine _renderingEngine;
     private GameLogicProcessor _gameLogicProcessor;
+    private InputProcessor _inputProcessor;
     private Scene _currentScene;
+    private EngineState _engineState;
 
-    public GameEngine(RenderingEngine renderingEngine, GameLogicProcessor gameLogicProcessor){
+    public GameEngine(RenderingEngine renderingEngine, GameLogicProcessor gameLogicProcessor,
+                      InputProcessor inputProcessor){
 
-        if(renderingEngine != null && gameLogicProcessor != null){
+        if(renderingEngine != null && gameLogicProcessor != null
+                && inputProcessor != null){
             _fixedUpdatesCountPerFrame = 0;
             _amountOfRealTimeToCatchUp = 0;
             _fixedUpdateTime = 0;
             _updateGameStateTime = 0;
             _timeToRender = 0;
+            _inputsProcessingTime = 0;
             _totalUpdateTime = 0;
 
             _renderingEngine = renderingEngine;
             _gameLogicProcessor = gameLogicProcessor;
+            _inputProcessor = inputProcessor;
             _currentScene = new Scene();
+            _engineState = EngineState.Stopped;
         }
         else{
             throw new IllegalArgumentException();
@@ -38,17 +55,31 @@ public class GameEngine {
     }
 
     public void start(){
+        Gdx.app.log(GameEngine.TAG, "Game engine starts...");
         _gameLogicProcessor.start(_currentScene);
+        _engineState = EngineState.Running;
     }
 
-    public void update(float delta){
+    public void stop(){
+        Gdx.app.log(GameEngine.TAG, "Game engine stops...");
+        _engineState = EngineState.Stopped;
+    }
+
+    public EngineState getEngineState(){
+        return _engineState;
+    }
+
+    public EngineState update(float delta){
         int i = 0;
         _amountOfRealTimeToCatchUp += delta * 1e9;
         _fixedUpdatesCountPerFrame = 0;
         _fixedUpdateTime = 0;
         _currentScene.lock();
 
-        if(_amountOfRealTimeToCatchUp >= GameEngine.NS_PER_FIXED_UPDATE){
+        if(_engineState == EngineState.Running &&
+                _amountOfRealTimeToCatchUp >= GameEngine.NS_PER_FIXED_UPDATE){
+
+            _inputsProcessingTime = processUserInputs();
             while(_amountOfRealTimeToCatchUp >= GameEngine.NS_PER_FIXED_UPDATE &&
                     i < GameEngine.MAX_UPDATE_ITERATION) {
                 _fixedUpdateTime += fixedUpdate();
@@ -61,8 +92,10 @@ public class GameEngine {
         _timeToRender = render();
         _currentScene.unlock();
 
-        _totalUpdateTime = + _fixedUpdateTime + _updateGameStateTime +
-                _timeToRender;
+        _totalUpdateTime = _inputsProcessingTime + _fixedUpdateTime
+                + _updateGameStateTime + _timeToRender;
+
+        return _engineState;
     }
 
     public void addGameObjectToCurrentScene(GameObject gameObject){
@@ -71,6 +104,10 @@ public class GameEngine {
 
     public void removeGameObjectFromCurrentScene(GameObject gameObject){
         _currentScene.removeGameObject(gameObject);
+    }
+
+    public ImmutableArray<GameObject> getGameObjectsFor(Family family){
+        return _currentScene.getGameObjectsFor(family);
     }
 
     private long fixedUpdate(){
@@ -87,9 +124,14 @@ public class GameEngine {
         return _renderingEngine.render(_currentScene);
     }
 
+    private long processUserInputs(){
+        return _inputProcessor.processUserInputs(_currentScene);
+    }
+
     public int getFixedUpdatesCountPerFame(){ return _fixedUpdatesCountPerFrame; }
     public long getTotalUpdateTime(){ return _totalUpdateTime; }
     public long getFixedUpdateTime(){ return _fixedUpdateTime;}
+    public long getInputsProcessingTime(){ return _inputsProcessingTime; }
     public long getUpdateGameStateTime() { return _updateGameStateTime; }
     public long getTimeToRender(){ return _timeToRender; }
 }

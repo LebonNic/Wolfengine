@@ -3,10 +3,12 @@ package com.arvernistudio.wolfengine.finder;
 import com.arvernistudio.wolfengine.component.Component;
 import com.arvernistudio.wolfengine.mapper.ComponentMapper;
 import com.arvernistudio.wolfengine.services.ServiceLocator;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class FamilyBuilder {
+    private static final String TAG = FamilyBuilder.class.getSimpleName();
     private ObjectMap<String, Family> _families;
     private Bits _all;
     private Bits _one;
@@ -38,6 +40,8 @@ public class FamilyBuilder {
         if(family == null) {
             family = new Family(_all, _one);
             _families.put(familyKey, family);
+            Gdx.app.log(FamilyBuilder.TAG, "Create a new family with the following key:"
+            + familyKey);
         }
 
         resetBuilder();

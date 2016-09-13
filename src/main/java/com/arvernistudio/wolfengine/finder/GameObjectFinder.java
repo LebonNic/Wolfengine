@@ -2,11 +2,13 @@ package com.arvernistudio.wolfengine.finder;
 
 import com.arvernistudio.wolfengine.gameobject.GameObject;
 import com.arvernistudio.wolfengine.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 
 public class GameObjectFinder {
+    private static final String TAG = GameObjectFinder.class.getSimpleName();
     private ObjectMap<Family, Array<GameObject>> _families;
     private ObjectMap<Family, ImmutableArray<GameObject>> _exposedFamilies;
     private ObjectSet<GameObject> _gameObjects;
@@ -34,6 +36,8 @@ public class GameObjectFinder {
                 }
             }
 
+            Gdx.app.log(GameObjectFinder.TAG, "Put the family with the following key in cache: "
+            + family.getFamilyKey());
             _families.put(family, gameObjectsInFamily);
             _exposedFamilies.put(family, exposedGameObjectsInFamily);
         }
