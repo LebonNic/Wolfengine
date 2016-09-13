@@ -2,6 +2,6 @@ package com.arvernistudio.wolfengine.core;
 
 import com.arvernistudio.wolfengine.scene.Scene;
 
-public interface InputProcessor {
+public interface InputsProcessor {
     long processUserInputs(Scene scene);
 }

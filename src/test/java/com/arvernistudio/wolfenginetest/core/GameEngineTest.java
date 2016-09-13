@@ -3,7 +3,7 @@ package com.arvernistudio.wolfenginetest.core;
 import com.arvernistudio.wolfengine.component.Component;
 import com.arvernistudio.wolfengine.core.GameEngine;
 import com.arvernistudio.wolfengine.core.GameLogicProcessor;
-import com.arvernistudio.wolfengine.core.InputProcessor;
+import com.arvernistudio.wolfengine.core.InputsProcessor;
 import com.arvernistudio.wolfengine.core.RenderingEngine;
 import com.arvernistudio.wolfengine.finder.Family;
 import com.arvernistudio.wolfengine.finder.FamilyBuilder;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class GameEngineTest {
     private static RenderingEngine renderingEngine;
     private static GameLogicProcessor gameLogicProcessor;
-    private static InputProcessor inputProcessor;
+    private static InputsProcessor inputsProcessor;
 
     private class FooComponent extends Component {}
 
@@ -68,7 +68,7 @@ public class GameEngineTest {
     public static void initTests(){
         renderingEngine = Mockito.mock(RenderingEngine.class);
         gameLogicProcessor = Mockito.mock(GameLogicProcessor.class);
-        inputProcessor = Mockito.mock(InputProcessor.class);
+        inputsProcessor = Mockito.mock(InputsProcessor.class);
 
         when(renderingEngine.render(any(Scene.class))).thenReturn(
                 TimeUnit.MILLISECONDS.toNanos(consumedTimeToRender));
@@ -79,14 +79,14 @@ public class GameEngineTest {
         when(gameLogicProcessor.update(any(Scene.class))).thenReturn(
                 TimeUnit.MILLISECONDS.toNanos(consumedTimeToUpdateGameState));
 
-        when(inputProcessor.processUserInputs(any(Scene.class))).thenReturn(
+        when(inputsProcessor.processUserInputs(any(Scene.class))).thenReturn(
                 TimeUnit.MILLISECONDS.toNanos(consumedTimeToProcessUserInputs));
     }
 
     @Test
     public void instantiationTest(){
         GameEngine gameEngine = new GameEngine(
-                renderingEngine, gameLogicProcessor, inputProcessor);
+                renderingEngine, gameLogicProcessor, inputsProcessor);
 
         assertEquals(0, gameEngine.getFixedUpdatesCountPerFame());
         assertEquals(0, gameEngine.getInputsProcessingTime());
@@ -100,7 +100,7 @@ public class GameEngineTest {
     @Test
     public void updateMethodTest(){
         GameEngine gameEngine = new GameEngine(
-                renderingEngine, gameLogicProcessor, inputProcessor);
+                renderingEngine, gameLogicProcessor, inputsProcessor);
         gameEngine.start();
         gameEngine.update(GameEngineTest.delta);
 
@@ -127,7 +127,7 @@ public class GameEngineTest {
     @Test
     public void adaptationToLowFrameRateTest(){
         GameEngine gameEngine = new GameEngine(
-                renderingEngine, gameLogicProcessor, inputProcessor);
+                renderingEngine, gameLogicProcessor, inputsProcessor);
         gameEngine.start();
         gameEngine.update(GameEngineTest.delta * 2);
 
@@ -149,7 +149,7 @@ public class GameEngineTest {
     @Test
     public void adaptationToHighFrameRateTest(){
         GameEngine gameEngine = new GameEngine(
-                renderingEngine, gameLogicProcessor, inputProcessor);
+                renderingEngine, gameLogicProcessor, inputsProcessor);
         gameEngine.start();
         gameEngine.update(GameEngineTest.delta / 2.0f);
 
@@ -164,7 +164,7 @@ public class GameEngineTest {
     @Test
     public void avoidInfiniteLoopTest(){
         GameEngine gameEngine = new GameEngine(
-                renderingEngine, gameLogicProcessor, inputProcessor);
+                renderingEngine, gameLogicProcessor, inputsProcessor);
         gameEngine.start();
         gameEngine.update(GameEngineTest.delta * (GameEngine.MAX_UPDATE_ITERATION + 1));
 
@@ -179,7 +179,7 @@ public class GameEngineTest {
     @Test
     public void startStopTest(){
         GameEngine gameEngine = new GameEngine(
-                renderingEngine, gameLogicProcessor, inputProcessor);
+                renderingEngine, gameLogicProcessor, inputsProcessor);
 
         assertEquals(GameEngine.EngineState.Stopped, gameEngine.getEngineState());
         gameEngine.start();
@@ -191,7 +191,7 @@ public class GameEngineTest {
     @Test
     public void updateWhileStoppedTest(){
         GameEngine gameEngine = new GameEngine(
-                renderingEngine, gameLogicProcessor, inputProcessor);
+                renderingEngine, gameLogicProcessor, inputsProcessor);
 
         gameEngine.start();
         gameEngine.stop();
@@ -207,7 +207,7 @@ public class GameEngineTest {
     @Test
     public void addAndRemoveGameObjectsTest(){
         GameEngine gameEngine = new GameEngine(
-                renderingEngine, gameLogicProcessor, inputProcessor);
+                renderingEngine, gameLogicProcessor, inputsProcessor);
 
         gameEngine.addGameObjectToCurrentScene(
                 new GameObject()

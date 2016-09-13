@@ -26,15 +26,15 @@ public class GameEngine {
 
     private RenderingEngine _renderingEngine;
     private GameLogicProcessor _gameLogicProcessor;
-    private InputProcessor _inputProcessor;
+    private InputsProcessor _inputsProcessor;
     private Scene _currentScene;
     private EngineState _engineState;
 
     public GameEngine(RenderingEngine renderingEngine, GameLogicProcessor gameLogicProcessor,
-                      InputProcessor inputProcessor){
+                      InputsProcessor inputsProcessor){
 
         if(renderingEngine != null && gameLogicProcessor != null
-                && inputProcessor != null){
+                && inputsProcessor != null){
             _fixedUpdatesCountPerFrame = 0;
             _amountOfRealTimeToCatchUp = 0;
             _fixedUpdateTime = 0;
@@ -45,7 +45,7 @@ public class GameEngine {
 
             _renderingEngine = renderingEngine;
             _gameLogicProcessor = gameLogicProcessor;
-            _inputProcessor = inputProcessor;
+            _inputsProcessor = inputsProcessor;
             _currentScene = new Scene();
             _engineState = EngineState.Stopped;
         }
@@ -125,7 +125,7 @@ public class GameEngine {
     }
 
     private long processUserInputs(){
-        return _inputProcessor.processUserInputs(_currentScene);
+        return _inputsProcessor.processUserInputs(_currentScene);
     }
 
     public int getFixedUpdatesCountPerFame(){ return _fixedUpdatesCountPerFrame; }
