@@ -10,7 +10,11 @@ public abstract class Component {
     }
 
     public void setContainer(GameObject gameObject){
-        assert gameObject != null;
+        if(gameObject == null){
+            throw new IllegalArgumentException(
+                    "The parent game object of a component cannot be null."
+            );
+        }
         _container = gameObject;
     }
 

@@ -130,4 +130,10 @@ public class GameObjectTest {
         assertTrue(familyMembershipToggled);
         assertFalse(familyMembershipNotToggled);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nullComponentAddTest(){
+        GameObject gameObject = new GameObject();
+        gameObject.addComponent(null);
+    }
 }

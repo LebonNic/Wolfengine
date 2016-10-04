@@ -195,4 +195,9 @@ public class GameObjectFinderTest {
                         + GameObjectFinderTest.BAR_BAZ_FAMILY_COUNT,
                 allBarBazFamilyGameObjects.size());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nullObjectsSetAtInstantiationTest(){
+        GameObjectFinder gameObjectFinder = new GameObjectFinder(null);
+    }
 }

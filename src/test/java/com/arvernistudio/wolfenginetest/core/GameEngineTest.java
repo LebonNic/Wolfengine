@@ -171,9 +171,19 @@ public class GameEngineTest {
         assertEquals(GameEngine.MAX_UPDATE_ITERATION, gameEngine.getFixedUpdatesCountPerFame());
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void badArgumentsOnInstantiationTest(){
-        GameEngine engine = new GameEngine(null, null, null);
+    @Test(expected = IllegalArgumentException.class)
+    public void nullGameLogicProcessorTest(){
+        GameEngine engine = new GameEngine(renderingEngine, null, inputsProcessor);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nullRenderingEngineTest(){
+        GameEngine engine = new GameEngine(null, gameLogicProcessor, inputsProcessor);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nullInputProcessorTest(){
+        GameEngine engine = new GameEngine(renderingEngine, gameLogicProcessor, null);
     }
 
     @Test

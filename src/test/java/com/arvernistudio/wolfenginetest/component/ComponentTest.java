@@ -36,4 +36,10 @@ public class ComponentTest {
                 "passed to the setContainer method upon the call.",
                 gameObject, gameObjectAfterSetContainer);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setContainerWithIllegalArgument(){
+        Component component = Mockito.mock(Component.class, Mockito.CALLS_REAL_METHODS);
+        component.setContainer(null);
+    }
 }

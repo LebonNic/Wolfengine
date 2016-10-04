@@ -49,25 +49,33 @@ public class ServiceLocator {
     }
 
     public static void injectComponentMapper(ComponentMapper mapper){
-        assert mapper != null;
+        if(mapper == null){
+            throw new IllegalArgumentException("The parameter mapper cannot be null.");
+        }
         ServiceLocator._componentMapper = mapper;
         Gdx.app.log(ServiceLocator.TAG, "A new component mapper has been injected");
     }
 
     public static void injectFamilyBuilder(FamilyBuilder familyBuilder){
-        assert familyBuilder != null;
+        if(familyBuilder == null){
+            throw new IllegalArgumentException("The parameter familyBuilder cannot be null.");
+        }
         ServiceLocator._familyBuilder = familyBuilder;
         Gdx.app.log(ServiceLocator.TAG, "A new family builder has been injected");
     }
 
     public static void injectGameObjectPool(GameObjectPool gameObjectPool){
-        assert gameObjectPool != null;
+        if(_gameObjectPool == null){
+            throw new IllegalArgumentException("The parameter gameObjectPool cannot be null.");
+        }
         ServiceLocator._gameObjectPool = gameObjectPool;
         Gdx.app.log(ServiceLocator.TAG, "A new game object pool has been injected");
     }
 
     public static void injectComponentPools(ComponentPools componentPools){
-        assert componentPools != null;
+        if(componentPools == null){
+            throw new IllegalArgumentException("The parameter componentPools cannot be null.");
+        }
         ServiceLocator._componentPools = componentPools;
         Gdx.app.log(ServiceLocator.TAG, "New component pools have been injected");
     }

@@ -37,7 +37,9 @@ public class GameObject {
     }
 
     public <T extends Component> GameObject addComponent(T component){
-        assert component != null;
+        if(component == null){
+            throw new IllegalArgumentException("The parameter component cannot be null.");
+        }
         Class <? extends Component> clazz = component.getClass();
         int  componentIndex = ServiceLocator.getComponentTypeMapper().getComponentIndex(clazz);
         component.setContainer(this);

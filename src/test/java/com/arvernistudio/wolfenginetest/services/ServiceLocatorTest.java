@@ -22,7 +22,7 @@ public class ServiceLocatorTest {
     }
 
     @Test
-    public void locateComponentMapper(){
+    public void locateServicesTest(){
         ComponentMapper mapper = ServiceLocator.getComponentTypeMapper();
         FamilyBuilder builder = ServiceLocator.getFamilyBuilder();
         GameObjectPool gameObjectPool = ServiceLocator.getGameObjectPool();
@@ -32,5 +32,25 @@ public class ServiceLocatorTest {
         assertNotNull(builder);
         assertNotNull(gameObjectPool);
         assertNotNull(componentPools);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void injectNullMapperTest(){
+        ServiceLocator.injectComponentMapper(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void injectNullFamilyBuilderTest(){
+        ServiceLocator.injectComponentMapper(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void injectNullGameObjectPoolTest(){
+        ServiceLocator.injectComponentMapper(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void injectNullComponentPoolsTest(){
+        ServiceLocator.injectComponentPools(null);
     }
 }

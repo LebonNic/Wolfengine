@@ -27,7 +27,9 @@ public class Scene {
     }
 
     public void addGameObject(GameObject gameObject){
-        assert gameObject != null;
+        if(gameObject == null){
+            throw new IllegalArgumentException("The parameter gameObject cannot be null.");
+        }
 
         if(!_isLocked){
             addInternal(gameObject);

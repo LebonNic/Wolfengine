@@ -258,4 +258,10 @@ public class SceneTest {
                         - SceneTest.REMOVED_GAME_OBJECTS_COUNT,
                 allFooBarGameObjects.size());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addNullGameObjectTest(){
+        Scene scene = new Scene();
+        scene.addGameObject(null);
+    }
 }

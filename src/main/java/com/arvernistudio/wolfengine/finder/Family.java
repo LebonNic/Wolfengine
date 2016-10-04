@@ -11,9 +11,6 @@ public class Family {
     private int _id;
 
     public Family(Bits all, Bits one){
-        assert all != null;
-        assert one != null;
-
         _id = Family._instanceCounter;
         Family._instanceCounter++;
 

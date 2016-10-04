@@ -50,7 +50,13 @@ public class GameEngine {
             _engineState = EngineState.Stopped;
         }
         else{
-            throw new IllegalArgumentException();
+            if(renderingEngine == null){
+                throw new IllegalArgumentException("The rendering engine cannot be null.");
+            } else if(gameLogicProcessor == null){
+                throw new IllegalArgumentException("The game logic processor cannot be null.");
+            } else {
+                throw new IllegalArgumentException("The input processor cannot be null.");
+            }
         }
     }
 

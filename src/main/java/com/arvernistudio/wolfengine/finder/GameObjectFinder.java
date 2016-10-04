@@ -14,7 +14,10 @@ public class GameObjectFinder {
     private ObjectSet<GameObject> _gameObjects;
 
     public GameObjectFinder(ObjectSet<GameObject> gameObjects){
-        assert gameObjects != null;
+        if(gameObjects == null){
+            throw new IllegalArgumentException(
+                    "Argument gameObjects cannot be null.");
+        }
 
         _gameObjects = gameObjects;
         _families = new ObjectMap<>();
