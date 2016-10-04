@@ -3,6 +3,8 @@ package com.arvernistudio.wolfenginetest.services;
 import com.arvernistudio.wolfengine.finder.FamilyBuilder;
 import com.arvernistudio.wolfengine.mapper.ComponentMapper;
 import com.arvernistudio.wolfengine.mapper.ObjectMapComponentMapper;
+import com.arvernistudio.wolfengine.memory.ComponentPools;
+import com.arvernistudio.wolfengine.memory.GameObjectPool;
 import com.arvernistudio.wolfengine.services.ServiceLocator;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -23,8 +25,12 @@ public class ServiceLocatorTest {
     public void locateComponentMapper(){
         ComponentMapper mapper = ServiceLocator.getComponentTypeMapper();
         FamilyBuilder builder = ServiceLocator.getFamilyBuilder();
+        GameObjectPool gameObjectPool = ServiceLocator.getGameObjectPool();
+        ComponentPools componentPools = ServiceLocator.getComponentPools();
 
         assertNotNull(mapper);
         assertNotNull(builder);
+        assertNotNull(gameObjectPool);
+        assertNotNull(componentPools);
     }
 }
