@@ -18,19 +18,19 @@ public class ServiceLocator {
     static {
         Gdx.app.log(ServiceLocator.TAG, "Instantiate " + ObjectMapComponentMapper.class.getSimpleName() +
         " to handle services of " + ComponentMapper.class.getSimpleName());
-        _componentMapper = new ObjectMapComponentMapper();
+        ServiceLocator._componentMapper = new ObjectMapComponentMapper();
 
         Gdx.app.log(ServiceLocator.TAG, "Instantiate " + FamilyBuilder.class.getSimpleName() +
                 " to handle services of " + FamilyBuilder.class.getSimpleName());
-        _familyBuilder = new FamilyBuilder();
+        ServiceLocator._familyBuilder = new FamilyBuilder();
 
         Gdx.app.log(ServiceLocator.TAG, "Instantiate " + GameObjectPool.class.getSimpleName() +
                 " to handle services of " + GameObjectPool.class.getSimpleName());
-        _gameObjectPool = new GameObjectPool();
+        ServiceLocator._gameObjectPool = new GameObjectPool();
 
         Gdx.app.log(ServiceLocator.TAG, "Instantiate " + ComponentPools.class.getSimpleName() +
                 " to handle services of " + ComponentPools.class.getSimpleName());
-        _componentPools = new ComponentPools();
+        ServiceLocator._componentPools = new ComponentPools();
     }
 
     public static ComponentMapper getComponentTypeMapper(){

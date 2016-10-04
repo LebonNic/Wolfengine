@@ -6,7 +6,7 @@ public class Bag<E> {
     public static final int BAG_DEFAULT_CAPACITY = 64;
 
     public Bag () {
-        this(BAG_DEFAULT_CAPACITY);
+        this(Bag.BAG_DEFAULT_CAPACITY);
     }
 
     @SuppressWarnings("unchecked")

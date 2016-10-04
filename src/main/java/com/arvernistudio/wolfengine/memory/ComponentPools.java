@@ -7,12 +7,16 @@ import com.badlogic.gdx.utils.ReflectionPool;
 
 public class ComponentPools {
     private static final String TAG = ComponentPools.class.getSimpleName();
+    private static final int DEFAULT_INITIAL_POOL_SIZE = 16;
+    private static final int DEFAULT_MAXIMUM_POOL_SIZE = 96;
+
     private ObjectMap<Class<?>, ReflectionPool> _pools;
     private int _initialSize;
     private int _maxSize;
 
     public ComponentPools(){
-        this(16, 96);
+        this(ComponentPools.DEFAULT_INITIAL_POOL_SIZE,
+                ComponentPools.DEFAULT_MAXIMUM_POOL_SIZE);
     }
 
     public ComponentPools(int initialSize, int maxSize){
