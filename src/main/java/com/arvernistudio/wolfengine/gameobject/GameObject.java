@@ -80,7 +80,10 @@ public class GameObject {
             _familyMasks.flip(family.hashCode());
         }
         else{
-            // TODO throw a terrible error if we go here...
+            throw new InternalError(
+                    "The family membership cannot be toggled because the game object" +
+                            " does not belong to the family passed as parameter. " +
+                            "This situation should never happen.");
         }
     }
 

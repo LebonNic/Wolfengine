@@ -136,4 +136,13 @@ public class GameObjectTest {
         GameObject gameObject = new GameObject();
         gameObject.addComponent(null);
     }
+
+    @Test(expected = InternalError.class)
+    public void wrongFamilyMembershipTest() {
+        GameObject gameObject = new GameObject();
+        FamilyBuilder builder = ServiceLocator.getFamilyBuilder();
+        Family family = builder.all(FooComponent.class, BazComponent.class).get();
+
+        gameObject.toggleFamilyMembership(family);
+    }
 }
