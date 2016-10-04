@@ -45,10 +45,6 @@ public class ImmutableArray<T> implements Iterable<T> {
         return array.random();
     }
 
-    public T[] toArray () {
-        return array.toArray();
-    }
-
     public <V> V[] toArray (Class<?> type) {
         return array.toArray(type);
     }
@@ -59,9 +55,14 @@ public class ImmutableArray<T> implements Iterable<T> {
 
     public boolean equals (Object object) {
         boolean isEqual = false;
-        if(this.getClass() == object.getClass()) {
-            isEqual = array.equals(object);
+
+        if(object != null){
+            if(object instanceof ImmutableArray){
+                ImmutableArray immutableArray = (ImmutableArray)object;
+                isEqual = array.equals(immutableArray.array);
+            }
         }
+
         return isEqual;
     }
 
@@ -76,7 +77,7 @@ public class ImmutableArray<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator () {
         if (iterable == null) {
-            iterable = new ArrayIterable<T>(array, false);
+            iterable = new ArrayIterable<>(array, false);
         }
 
         return iterable.iterator();

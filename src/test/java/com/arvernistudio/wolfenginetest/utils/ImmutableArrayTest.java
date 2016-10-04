@@ -169,4 +169,69 @@ public class ImmutableArrayTest {
             i++;
         }
     }
+
+    @Test
+    public void toArrayTest(){
+        Array<Integer> array = new Array<>();
+        ImmutableArray<Integer> immutableArray = new ImmutableArray<>(array);
+        Integer[] expectedArray = {1, 2, 3};
+
+        array.add(1);
+        array.add(2);
+        array.add(3);
+
+        Integer[] intArray = immutableArray.toArray(Integer.class);
+
+        for(int i = 0; i < 3; i++){
+            assertEquals(expectedArray[i], intArray[i]);
+        }
+    }
+
+    @Test
+    public void toStringTest(){
+        Array<Integer> array = new Array<>();
+        ImmutableArray<Integer> immutableArray = new ImmutableArray<>(array);
+
+        array.add(1);
+        array.add(2);
+        array.add(3);
+
+        assertEquals("[1, 2, 3]", immutableArray.toString());
+        assertEquals("1;2;3", immutableArray.toString(";"));
+    }
+
+    @Test
+    public void equalsTest(){
+        Array<Integer> array = new Array<>();
+        ImmutableArray<Integer> immutableArray = new ImmutableArray<>(array);
+        Array<Integer> testedArray = new Array<>();
+        ImmutableArray testedImmutableArray = new ImmutableArray(testedArray);
+
+        array.add(1);
+        array.add(2);
+        array.add(3);
+
+        testedArray.add(1);
+        testedArray.add(2);
+
+        assertFalse(immutableArray.equals(testedImmutableArray));
+
+        testedArray.add(3);
+
+        assertTrue(immutableArray.equals(testedImmutableArray));
+        assertFalse(immutableArray.equals(null));
+        assertFalse(immutableArray.equals(testedArray));
+    }
+
+    @Test
+    public void hashCodeTest(){
+        Array<Integer> array = new Array<>();
+        ImmutableArray<Integer> immutableArray = new ImmutableArray<>(array);
+
+        array.add(1);
+        array.add(2);
+        array.add(3);
+
+        assertEquals(array.hashCode(), immutableArray.hashCode());
+    }
 }
